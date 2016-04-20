@@ -4,9 +4,15 @@ var ReactFire = require('reactfire');
 var Firebase = require('firebase');
 var rootUrl = 'https://shining-heat-7015.firebaseio.com/';
 var Header = require('./header');
+var List = require('./list');
 
 var Hello = React.createClass({
 	mixins:[ReactFire],
+	getInitialState:function(){
+		return{
+			items:{}
+		};
+	},
 	componentWillMount:function(){
 		var ref = new Firebase(rootUrl + "items");
 		//Creates a one-way binding from node in your Firebase database to an object in this.state.items of your React component.
@@ -18,6 +24,7 @@ var Hello = React.createClass({
     	<div className="col-md-8 col-md-offset-2">
 	    	<h2 className="text-center">Todo List</h2>
 	    	<Header itemsStore={this.firebaseRefs["items"]} />
+	    	<List items={this.state.items} />
     	</div>
     </div>
   }
