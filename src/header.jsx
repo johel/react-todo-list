@@ -21,6 +21,14 @@ module.exports = React.createClass({
 	},
 	handleClick:function(){
 		console.log('button was clicked');
+		this.props.itemsStore.push({
+			text:this.state.text,
+			done:false
+		});
+
+		this.setState({
+			text:''
+		});
 	},
 	handleChange:function(e){
 		this.setState({
