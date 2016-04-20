@@ -8,7 +8,7 @@ var Header = require('./header');
 var Hello = React.createClass({
 	mixins:[ReactFire],
 	componentWillMount:function(){
-		var ref = new Firebase(rootUrl+ "items");
+		var ref = new Firebase(rootUrl + "items");
 		//Creates a one-way binding from node in your Firebase database to an object in this.state.items of your React component.
 		this.bindAsObject(ref, "items");
 	},

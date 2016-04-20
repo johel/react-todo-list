@@ -1,12 +1,30 @@
 var React = require('react');
 
 module.exports = React.createClass({
+	getInitialState:function(){
+		return {
+			text:''
+		};
+	},
 	render:function(){
 		return <div className="input-group">
-			<input type="text" className="form-control" />
+			<input 
+				onChange={this.handleChange}
+				type="text" className="form-control" value={this.state.text}/>
 			<div className="input-group-btn">
-				<button type="button" className="btn btn-default"> Add Task</button>
+				<button
+					onClick={this.handleClick} 
+					type="button" 
+					className="btn btn-default">Add Task</button>
 			</div>
 		</div>
+	},
+	handleClick:function(){
+		console.log('button was clicked');
+	},
+	handleChange:function(e){
+		this.setState({
+			text:e.target.value
+		});
 	}
 });
