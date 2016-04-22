@@ -6,7 +6,8 @@ module.exports = React.createClass({
 	getInitialState:function(){
 		return {
 			text:this.props.item.text,
-			done:this.props.item.done
+			done:this.props.item.done,
+			textChanged:false
 		};
 	},
 	componentWillMount:function(){
@@ -20,18 +21,31 @@ module.exports = React.createClass({
       </span>
       <input onChange={this.onTextChange} value={this.state.text} type="text" className="form-control" />
       <span className="input-group-btn">
-        <button className="btn btn-danger" type="button">Delete</button>
+      	{this.renderChangeButtons()}
+        <button onClick={this.handleDeleteClick} className="btn btn-danger" type="button">Delete</button>
       </span>
     </div>
 	},
 	onTextChange:function(event){
 		this.setState({
-			text:event.target.value
+			text:event.target.value,
+			textChanged:true
 		});
 	},
 	onDoneChange:function(event){
 		var update = {done:event.target.checked};
 		this.setState(update);
 		this.itemRef.update(update);
+	},
+	handleDeleteClick:function(){
+		this.itemRef.remove();
+	},
+	renderChangeButtons:function(){
+		if(this.state.textChanged){
+			return <span>
+				<button onClick={this.handleDeleteClick} className="btn btn-default" type="button">Edit</button>
+				<button onClick={this.handleDeleteClick} className="btn btn-default" type="button">Undo</button>
+			</span>
+		}
 	}
 })

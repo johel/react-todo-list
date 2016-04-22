@@ -8,12 +8,11 @@ module.exports = React.createClass({
 		</div>
 	},
 	renderListItems:function(){
-		var keysArray = Object.keys(this.props.items);
+		var keysArray = this.props.items? Object.keys(this.props.items): [];
 		var result = [];
-		if(this.props.items && keysArray.length === 0){
-			return <li>Add a todo to get started</li>
+		if(keysArray.length === 0){
+			return <h2>Add a todo to get started</h2>
 		}else{
-			
 			keysArray.forEach(function(key, index){
 				var item = this.props.items[key];
 				item.key = key;
