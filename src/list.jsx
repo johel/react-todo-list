@@ -1,10 +1,11 @@
 var React = require('react');
+var ListItem = require('./list-item');
 
 module.exports = React.createClass({
 	render:function(){
-		return <ul>
+		return <div>
 			{this.renderListItems()}
-		</ul>
+		</div>
 	},
 	renderListItems:function(){
 		console.log('itens na lista', this.props.items);
@@ -16,8 +17,10 @@ module.exports = React.createClass({
 		}else{
 			
 			keysArray.forEach(function(key, index){
-				console.log(this.props.items[key]);
-				result.push(<li key={index}>{this.props.items[key].text}</li>)
+				var item = this.props.items[key];
+				item.key = key;
+				// console.log('item', item);
+				result.push(<ListItem key={index} item={item} />)
 			}.bind(this));
 			
 			// for(var key in this.props.items){
