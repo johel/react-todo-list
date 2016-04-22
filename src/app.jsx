@@ -10,23 +10,32 @@ var Hello = React.createClass({
 	mixins:[ReactFire],
 	getInitialState:function(){
 		return{
-			items:{}
+			items:{},
+			loaded:false
 		};
 	},
 	componentWillMount:function(){
-		var ref = new Firebase(rootUrl + "items");
+		var itemsRef = new Firebase(rootUrl + "items");
 		//Creates a one-way binding from node in your Firebase database to an object in this.state.items of your React component.
-		this.bindAsObject(ref, "items");
+		this.bindAsObject(itemsRef, "items");
+		itemsRef.on('value', this.dataWasLoaded);
 	},
   render: function() {
   	console.log('state', this.state);
     return <div className=" row panel panel-default">
     	<div className="col-md-8 col-md-offset-2">
-	    	<h2 className="text-center">Todo List</h2>
+	    	<h2 className="text-center">Todo List 1</h2>
 	    	<Header itemsStore={this.firebaseRefs["items"]} />
-	    	<List items={this.state.items} />
+	    	<div className={'content ' + (this.state.loaded? 'loaded' : '') }>
+	    		<List items={this.state.items} />
+	    	</div>	    	
     	</div>
     </div>
+  },
+  dataWasLoaded:function(){
+  	this.setState({
+  		loaded:true
+  	});
   }
 });
 
