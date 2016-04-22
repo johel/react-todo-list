@@ -15,10 +15,10 @@ var Hello = React.createClass({
 		};
 	},
 	componentWillMount:function(){
-		var itemsRef = new Firebase(rootUrl + "items");
+		this.itemsRef = new Firebase(rootUrl + "items");
 		//Creates a one-way binding from node in your Firebase database to an object in this.state.items of your React component.
-		this.bindAsObject(itemsRef, "items");
-		itemsRef.on('value', this.dataWasLoaded);
+		this.bindAsObject(this.itemsRef, "items");
+		this.itemsRef.on('value', this.dataWasLoaded);
 	},
   render: function() {
     return <div className=" row panel panel-default">
@@ -28,9 +28,30 @@ var Hello = React.createClass({
 	    	<hr/>
 	    	<div className={'content ' + (this.state.loaded? 'loaded' : '') }>
 	    		<List items={this.state.items} />
+	    		{this.renderDeleteButton()}
 	    	</div>	    	
     	</div>
     </div>
+  },
+  renderDeleteButton:function(){
+  	if(this.state.loaded){
+  		return <div className="text-center clear-complete">
+  			<hr/>
+  			<button
+  					type="button"
+  					onClick={this.onDeleteDoneClick}
+  					className="btn bet-default">
+  					Clear Completed
+  			</button>
+  		</div>
+  	}
+  },
+  onDeleteDoneClick:function(){
+  	for(var key in this.state.items){
+  		if(this.state.items[key].done){
+  			this.itemsRef.child(key).remove();
+  		}
+  	}
   },
   dataWasLoaded:function(){
   	this.setState({
